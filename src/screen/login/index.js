@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Image } from 'react-native';
+import { Image, ActivityIndicator } from 'react-native';
 import { 
     Container,
     BoxLogin,
@@ -22,6 +22,17 @@ import {
 export default () => {
 
     const [currentButton, setCurrentButton] = useState('aluno');
+    const [email, setEmail] = useState("");
+    const [senha, setSenha] = useState("");
+    const [carregando, setCarregando] = useState(false);
+
+    function handleSignIn(){
+        setCarregando(true);
+    }
+
+    function handleSignUp(){
+
+    }
 
     return (
             <Container>
@@ -62,18 +73,33 @@ export default () => {
                 </ContainerBotoes>
 
                  <InputTexto>Email</InputTexto>
-                <Input placeholder='Informe seu Email'/>
+                <Input 
+                placeholder='Informe seu Email'
+                onChangeText={ text => setEmail(text)    
+                
+                }
+                />
 
                  <InputTexto>Senha</InputTexto>
-                <Input placeholder='Informe sua Senha'/>
+                <Input
+                placeholder='Informe sua Senha'
+                onChangeText={ text => setSenha(text)}
+                secureTextEntry={true}
+                 />
                 <ForgotPassword>Esqueceu sua Senha?</ForgotPassword>
                 
 
                 <ContainerBotoes>
-                    <ButtonComponent>
-                        <ButtonText>Cadastre-se</ButtonText>
+                    <ButtonComponent
+                    onPress={()=>{ handleSignIn() }}
+                    >
+                        {carregando ? <ActivityIndicator color='#AE1B73' /> : 
+                        <ButtonText>Cadastre-se</ButtonText> }
                     </ButtonComponent>
-                    <ButtonComponent color2={true}>
+                    <ButtonComponent 
+                    color2={true}
+                    onPress={()=>{}}
+                    >
                         <ButtonText color1={true}>Entrar</ButtonText>
                     </ButtonComponent>
                 </ContainerBotoes>
