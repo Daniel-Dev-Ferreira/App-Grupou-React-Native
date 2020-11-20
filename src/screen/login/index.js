@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Image, ActivityIndicator } from 'react-native';
 import { 
     Container,
@@ -18,8 +18,11 @@ import {
  } from './styles';
 
  import logoImg from '../../../assets/logo.png';
+ import {UsuarioContext} from '../../../contexts/user';
 
 export default () => {
+
+    const {signIn, signUp} = useContext(UsuarioContext);
 
     const [currentButton, setCurrentButton] = useState('aluno');
     const [email, setEmail] = useState("");
@@ -27,11 +30,23 @@ export default () => {
     const [carregando, setCarregando] = useState(false);
 
     function handleSignIn(){
-        setCarregando(true);
+        try {
+            signIn(email,senha);
+        } catch (err) {
+            console.warn(err);
+        } 
     }
 
     function handleSignUp(){
+        setCarregando(true);
 
+        try {
+            signUp(email,senha);
+        } catch (err) {
+            console.warn(err);
+        }finally{
+            setCarregando(false);
+        }
     }
 
     return (
@@ -91,14 +106,14 @@ export default () => {
 
                 <ContainerBotoes>
                     <ButtonComponent
-                    onPress={()=>{ handleSignIn() }}
+                    onPress={()=>{ handleSignUp() }}
                     >
                         {carregando ? <ActivityIndicator color='#AE1B73' /> : 
                         <ButtonText>Cadastre-se</ButtonText> }
                     </ButtonComponent>
                     <ButtonComponent 
                     color2={true}
-                    onPress={()=>{}}
+                    onPress={()=>{handleSignIn()}}
                     >
                         <ButtonText color1={true}>Entrar</ButtonText>
                     </ButtonComponent>
